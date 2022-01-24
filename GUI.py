@@ -64,6 +64,8 @@ while running:
 
     screen.blit(background, (0, 0))
 
+    pg.draw.rect(screen, (100, 100, 100), (30, 70, background.get_width() - 60, 2))
+
     for i in range(puzzle.ROWS):
         for j in range(puzzle.COLUMNS):
             outline_colour = (200, 200, 200)
