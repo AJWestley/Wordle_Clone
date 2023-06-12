@@ -117,7 +117,7 @@ while running:
     elif invalid_word_timer > 0:
         screen.blit(faded, (0, background.get_height() / 3 - faded.get_height() / 2))
         letter_font = pg.font.Font(None, 32)
-        letter = letter_font.render(f'Invalid word', True, (200, 200, 200))
+        letter = letter_font.render('Invalid word', True, (200, 200, 200))
         textpos = letter.get_rect(centerx=faded.get_width() / 2, centery=background.get_height() / 3)
         screen.blit(letter, textpos)
 
