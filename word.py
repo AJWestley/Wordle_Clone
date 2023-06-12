@@ -323,38 +323,33 @@ class Word:
             return 0
 
     def backspace(self):
-        if self._column_at > 0 and not self.check_correct():
-            self._column_at -= 1
-            self._inputs[self._row_at][self._column_at] = ''
-            return 1
-        else:
+        if self._column_at <= 0 or self.check_correct():
             return 0
+        self._column_at -= 1
+        self._inputs[self._row_at][self._column_at] = ''
+        return 1
 
     def confirm_input(self):
-        if self._column_at == 5 and not self.check_correct():
-            for index, value in enumerate(self._inputs[self._row_at]):
-                if value == self._answer[index]:
-                    self._check[self._row_at][index] = self.CORRECT
-                else:
-                    self._check[self._row_at][index] = self.TOTALLY_WRONG
-            for index, value in enumerate(self._inputs[self._row_at]):
-                if self._check[self._row_at][index] != self.CORRECT:
-                    for i, val in enumerate(self._inputs[self._row_at]):
-                        if self._check[self._row_at][i] != self.CORRECT and self._inputs[self._row_at][index] == self._answer[i]:
-                            self._check[self._row_at][index] = self.WRONG_PLACE
-                            break
-            self._column_at = 0
-            self._row_at = self._row_at + 1
-            return 1
-        else:
+        if self._column_at != 5 or self.check_correct():
             return 0
+        for index, value in enumerate(self._inputs[self._row_at]):
+            if value == self._answer[index]:
+                self._check[self._row_at][index] = self.CORRECT
+            else:
+                self._check[self._row_at][index] = self.TOTALLY_WRONG
+        for index, value in enumerate(self._inputs[self._row_at]):
+            if self._check[self._row_at][index] != self.CORRECT:
+                for i, val in enumerate(self._inputs[self._row_at]):
+                    if self._check[self._row_at][i] != self.CORRECT and self._inputs[self._row_at][index] == self._answer[i]:
+                        self._check[self._row_at][index] = self.WRONG_PLACE
+                        break
+        self._column_at = 0
+        self._row_at = self._row_at + 1
+        return 1
 
     def check_correct(self):
         for i in range(self.ROWS):
-            all_true = True
-            for j in range(self.COLUMNS):
-                if self._check[i][j] != self.CORRECT:
-                    all_true = False
+            all_true = all(self._check[i][j] == self.CORRECT for j in range(self.COLUMNS))
             if all_true:
                 return True
         return False
